@@ -16,3 +16,21 @@ def test_get_schedule_returns_all_items(client):
     response = client.get("/schedule/")
     data = response.json()
     assert len(data) == 3
+
+
+@pytest.mark.django_db
+def test_get_schedule_ordered_by_day_of_week_and_hours(client):
+    ScheduleFactory(day_of_week=1, hour=1)
+    ScheduleFactory(day_of_week=1, hour=0)
+    ScheduleFactory(day_of_week=0, hour=0)
+    ScheduleFactory(day_of_week=2, hour=0)
+    ScheduleFactory(day_of_week=1, hour=2)
+    response = client.get("/schedule/")
+    data = response.json()
+    assert [(d["day_of_week"], d["hour"]) for d in data] == [
+        (0, 0),
+        (1, 0),
+        (1, 1),
+        (1, 2),
+        (2, 0),
+    ]

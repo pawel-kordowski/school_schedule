@@ -6,5 +6,5 @@ from schedule.serializers import ScheduleSerializer
 
 
 class ScheduleViewSet(ListModelMixin, GenericViewSet):
-    queryset = Schedule.objects.all()
+    queryset = Schedule.objects.order_by("day_of_week", "hour")
     serializer_class = ScheduleSerializer
