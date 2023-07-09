@@ -1,10 +1,15 @@
+from django.db.models import Prefetch, Count
 from rest_framework.viewsets import GenericViewSet
 from rest_framework.mixins import ListModelMixin
 
-from schedule.models import Schedule
+from schedule.models import Schedule, Class
 from schedule.serializers import ScheduleSerializer
 
 
 class ScheduleViewSet(ListModelMixin, GenericViewSet):
-    queryset = Schedule.objects.order_by("day_of_week", "hour")
+    queryset = Schedule.objects.prefetch_related(
+        Prefetch(
+            "klass", queryset=Class.objects.annotate(student_count=Count("students"))
+        )
+    ).order_by("day_of_week", "hour")
     serializer_class = ScheduleSerializer

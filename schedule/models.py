@@ -7,7 +7,7 @@ class Class(models.Model):
 
 class Student(models.Model):
     name = models.CharField(max_length=256)
-    klass = models.ForeignKey(Class, on_delete=models.CASCADE)
+    klass = models.ForeignKey(Class, on_delete=models.CASCADE, related_name="students")
 
 
 class Teacher(models.Model):
