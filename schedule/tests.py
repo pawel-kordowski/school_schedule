@@ -62,3 +62,13 @@ def test_get_schedule_payload(client, django_assert_num_queries):
             "hour": schedule_2.hour,
         },
     ]
+
+
+@pytest.mark.django_db
+def test_get_schedule_filter_by_class_name(client):
+    ScheduleFactory(klass__name="5A")
+    ScheduleFactory()
+    response = client.get("/schedule/", data={"class_name": "5A"})
+    data = response.json()
+    assert len(data) == 1
+    assert data[0]["class"]["name"] == "5A"

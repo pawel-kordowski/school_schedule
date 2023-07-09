@@ -2,6 +2,7 @@ from django.db.models import Prefetch, Count
 from rest_framework.viewsets import GenericViewSet
 from rest_framework.mixins import ListModelMixin
 
+from schedule.filters import ScheduleFilter
 from schedule.models import Schedule, Class
 from schedule.serializers import ScheduleSerializer
 
@@ -18,3 +19,4 @@ class ScheduleViewSet(ListModelMixin, GenericViewSet):
         .order_by("day_of_week", "hour")
     )
     serializer_class = ScheduleSerializer
+    filterset_class = ScheduleFilter
