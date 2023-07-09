@@ -14,7 +14,7 @@ class ScheduleViewSet(ListModelMixin, GenericViewSet):
                 queryset=Class.objects.annotate(student_count=Count("students")),
             )
         )
-        .select_related("subject")
+        .select_related("subject__teacher")
         .order_by("day_of_week", "hour")
     )
     serializer_class = ScheduleSerializer

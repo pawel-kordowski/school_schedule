@@ -50,12 +50,14 @@ def test_get_schedule_payload(client, django_assert_num_queries):
         {
             "class": {"name": "5A", "student_count": 3},
             "subject": {"name": schedule_1.subject.name},
+            "teacher": {"name": schedule_1.subject.teacher.name},
             "day_of_week": schedule_1.day_of_week,
             "hour": schedule_1.hour,
         },
         {
             "class": {"name": "5B", "student_count": 5},
             "subject": {"name": schedule_2.subject.name},
+            "teacher": {"name": schedule_2.subject.teacher.name},
             "day_of_week": schedule_2.day_of_week,
             "hour": schedule_2.hour,
         },
