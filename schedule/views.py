@@ -7,9 +7,14 @@ from schedule.serializers import ScheduleSerializer
 
 
 class ScheduleViewSet(ListModelMixin, GenericViewSet):
-    queryset = Schedule.objects.prefetch_related(
-        Prefetch(
-            "klass", queryset=Class.objects.annotate(student_count=Count("students"))
+    queryset = (
+        Schedule.objects.prefetch_related(
+            Prefetch(
+                "klass",
+                queryset=Class.objects.annotate(student_count=Count("students")),
+            )
         )
-    ).order_by("day_of_week", "hour")
+        .select_related("subject")
+        .order_by("day_of_week", "hour")
+    )
     serializer_class = ScheduleSerializer
