@@ -1,0 +1,11 @@
+version: '3'
+services:
+  app:
+    image: app_school_schedule
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile
+    volumes:
+      - .:/project/app/
+    ports:
+      - 8000:8000
